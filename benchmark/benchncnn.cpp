@@ -103,6 +103,8 @@ static ncnn::VkAllocator* g_staging_vkallocator = 0;
 void benchmark(const char* comment, void (*init)(ncnn::Net&), void (*run)(const ncnn::Net&))
 {
     ncnn::BenchNet net;
+    
+    std::chrono::time_point<std::chrono::high_resolution_clock> bench_start = std::chrono::high_resolution_clock::now();
 
 #if NCNN_VULKAN
     if (g_use_vulkan_compute)
@@ -162,9 +164,12 @@ void benchmark(const char* comment, void (*init)(ncnn::Net&), void (*run)(const 
         time_avg += time;
     }
 
+    std::chrono::time_point<std::chrono::high_resolution_clock> bench_end = std::chrono::high_resolution_clock::now();
+    double bench_time = 1000.0 * std::chrono::duration<double>(bench_end - bench_start).count() / (g_loop_count + 3);
+    
     time_avg /= g_loop_count;
 
-    fprintf(stderr, "%20s  min = %7.2f  max = %7.2f  avg = %7.2f\n", comment, time_min, time_max, time_avg);
+    fprintf(stderr, "%20s  min = %7.2f  max = %7.2f  avg = %7.2f  other = %7.2f\n", comment, time_min, time_max, time_avg, bench_time);
 }
 
 void squeezenet_init(ncnn::Net& net)
