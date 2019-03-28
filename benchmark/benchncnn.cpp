@@ -154,7 +154,8 @@ void benchmark(const char* comment, void (*init)(ncnn::Net&), void (*run)(const 
         //double end = ncnn::get_current_time();
         std::chrono::time_point<std::chrono::high_resolution_clock> end = std::chrono::high_resolution_clock::now();
 
-        double time =  std::chrono::duration<double>(end - start).count();
+        double timeS =  std::chrono::duration<double>(end - start).count();
+        double time = timeS * 1000.0;
 
         time_min = std::min(time_min, time);
         time_max = std::max(time_max, time);
