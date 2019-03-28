@@ -7,6 +7,11 @@ set_property(TARGET benchncnn PROPERTY COMPILE_FLAGS "-fpie")
 set_property(TARGET benchncnn PROPERTY LINK_FLAGS "-pie")
 target_link_libraries(benchncnn PRIVATE ncnn)
 
+add_executable(benchncnn2 benchncnn2.cpp)
+set_property(TARGET benchncnn PROPERTY COMPILE_FLAGS "-fpie")
+set_property(TARGET benchncnn PROPERTY LINK_FLAGS "-pie")
+target_link_libraries(benchncnn PRIVATE ncnn)
+
 if(NCNN_VULKAN)
     target_link_libraries(benchncnn PRIVATE ${Vulkan_LIBRARY})
 endif()
