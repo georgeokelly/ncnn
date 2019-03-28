@@ -147,14 +147,14 @@ void benchmark(const char* comment, void (*init)(ncnn::Net&), void (*run)(const 
     for (int i=0; i<g_loop_count; i++)
     {
         //double start = ncnn::get_current_time();
-        double start = std::chrono::high_resolution_clock::now();
+        time_point<high_resolution_clock> start = std::chrono::high_resolution_clock::now();
 
         run(net);
 
         //double end = ncnn::get_current_time();
-        double end = std::chrono::high_resolution_clock::now();
+        time_point<high_resolution_clock> end = std::chrono::high_resolution_clock::now();
 
-        double time = end - start;
+        double time = duration<double>(end - start).count();
 
         time_min = std::min(time_min, time);
         time_max = std::max(time_max, time);
